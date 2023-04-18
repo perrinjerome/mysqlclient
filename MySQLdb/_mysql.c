@@ -408,7 +408,7 @@ _mysql_ConnectionObject_Initialize(
     PyObject *ssl = NULL;
     char *ssl_mode = NULL;
     const char *key = NULL, *cert = NULL, *ca = NULL,
-         *capath = NULL, *cipher = NULL;
+         *capath = NULL, *cipher = NULL, *crl = NULL, *crlpath = NULL;
     PyObject *ssl_keepref[5] = {NULL};
     int n_ssl_keepref = 0;
     char *host = NULL, *user = NULL, *passwd = NULL,
@@ -467,6 +467,8 @@ _mysql_ConnectionObject_Initialize(
         _stringsuck(cert, value, ssl);
         _stringsuck(key, value, ssl);
         _stringsuck(cipher, value, ssl);
+        _stringsuck(crl, value, ssl);
+        _stringsuck(crlpath, value, ssl);
     }
     if (ssl_mode) {
 #ifdef HAVE_ENUM_MYSQL_OPT_SSL_MODE
@@ -520,6 +522,8 @@ _mysql_ConnectionObject_Initialize(
 
     if (ssl) {
         mysql_ssl_set(&(self->connection), key, cert, ca, capath, cipher);
+        mysql_options(&(self->connection), MYSQL_OPT_SSL_CRL, crl);
+        mysql_options(&(self->connection), MYSQL_OPT_SSL_CRLPATH, crlpath);
     }
 #ifdef HAVE_ENUM_MYSQL_OPT_SSL_MODE
     if (ssl_mode) {

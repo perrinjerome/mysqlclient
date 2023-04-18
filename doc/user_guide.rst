@@ -372,10 +372,12 @@ connect(parameters...)
          ssl
             This parameter takes a dictionary or mapping, where the
             keys are parameter names used by the mysql_ssl_set_ MySQL
-            C API call. If this is set, it initiates an SSL connection
-            to the server; if there is no SSL support in the client,
-            an exception is raised. *This must be a keyword
-            parameter.*
+            C API call (`key`, `cert`, `ca`, `capath`, and `cipher`)
+            and also `crl` and `crlpath`  that will be used for
+            `MYSQL_OPT_SSL_CRL` and `MYSQL_OPT_SSL_CRLPATH` options.
+            If this is set, it initiates an SSL connection to the server;
+            if there is no SSL support in the client, an exception is raised.
+            *This must be a keyword parameter.*
 
 .. _mysql_ssl_set: http://dev.mysql.com/doc/refman/en/mysql-ssl-set.html
 
